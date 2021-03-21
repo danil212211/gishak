@@ -16,6 +16,8 @@
     </b-card-text>
   </b-card>
 </div>
+	   
+        <form action="#" v-on:submit.prevent="sendData">
       <b-form-textarea
         id="textarea-default"
         placeholder="Имя"
@@ -29,22 +31,23 @@
         placeholder="Описание"
       ></b-form-textarea>
     <b-form-file
-      :state="Boolean(file1)"
+      :state="Boolean(image)"
 	  @change=uploadImage
 	  accept="image/*"
-	  v-model="previewImage"
+	  v-model="image"
       placeholder="Фото"
       drop-placeholder="Фото"
 	  style="margin-bottom:10px;"
     ></b-form-file>
 	    <b-form-file
-      :state="Boolean(file1)"
+      :state="Boolean(file)"
 	  accept="file/*"
 	  v-model="file"
       placeholder="Файл"
       drop-placeholder="Файл"
     ></b-form-file>
-<button class="btn btn-primary" style="margin-bottom:20px; margin-top:10px;">Добавить объект</button>
+<button type="submit" v-on:click="sendData()" class="btn btn-primary" style="margin-bottom:20px; margin-top:10px;">Добавить объект</button>
+</form>
 </b-container>
 </div>
 </template>
@@ -53,11 +56,14 @@ export default {
   data() {
     return {
 	Name:'',
+	Description:'',
 	file: '',
 	map: null,
 	marker:null,
-	Description:'',
-	previewImage:'https://picsum.photos/900/250/?image=3'
+	lat:62.034482696715386,
+	lng:129.69491446800936,
+	previewImage:'https://picsum.photos/900/250/?image=3',
+	image :''
 	}
 	},
         methods:{
@@ -69,7 +75,36 @@ export default {
                     this.previewImage = e.target.result;
                     console.log(this.previewImage);
                 };
-            }
+            },
+			sendData() {
+			console.log(this.Name);
+			console.log(this.Description);
+			console.log(this.image);
+			console.log(this.file);
+			console.log(this.lat);
+			console.log(this.lng);
+      this.$axios.post('/api/addcard.php',{
+	  Name: this.Name,
+	  Description: this.Description,
+	  Image : this.image,
+	  File : this.file,
+	  Lat : this.lat,
+	  Lng : this.lng
+	  })
+      .then(response => {
+			var answer = response.data.answer;
+			if (answer=="no") {console.log(answer); this.$router.push('signup');}
+			if (answer=="yes") {
+				this.$cookies.set("uid",response.data.login);
+				this.$cookies.set("hash",response.data.hash);
+				this.$router.push('map')
+			};
+			
+			})
+	  .catch(error => {})	
+			
+			
+			}
 },
 mounted(){
 
@@ -77,14 +112,12 @@ mounted(){
 		center: [62.034482696715386, 129.69491446800936],
                     zoom: 10
                 });
-                marker = new DG.marker([62.034482696715386, 129.69491446800936], {
+                this.marker = new DG.marker([62.034482696715386, 129.69491446800936], {
                     draggable: true
                 }).addTo(this.map);
-                marker.on('drag', function(e) {
-                    var lat = e.target._latlng.lat.toFixed(3),
-                        lng = e.target._latlng.lng.toFixed(3);
-
-                    locationInfo.innerHTML = lat + ', ' + lng;
+                this.marker.on('drag', function(e) {
+					this.lat=e.latlng.lat;
+					this.lng=e.latlng.lng;
                 });
           
 

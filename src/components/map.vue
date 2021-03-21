@@ -1,7 +1,7 @@
 <template>
 <div >
   <NavBar></NavBar>
-     <div ref="map" style="width:100%; height: 75vh;"></div>   
+     <div ref="map" style="width:100%; height: 90vh;"></div>   
 </div>
 </template>
 

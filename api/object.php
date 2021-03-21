@@ -7,7 +7,7 @@ class ObjectY {
 	public $Id;
 	public $Lat;
 	public $Lng;
-	public function __construct ($name ,$desc,$photo,$file,$id,$lat,$lng)
+	public function __construct ($name ,$desc,$photo,$file,$lat,$lng,$id)
 	{
 		$this->Name=$name;
 		$this->Description=$desc;
