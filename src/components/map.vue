@@ -18,17 +18,22 @@ export default {
         this.$axios.post('/api/getobjects.php')
       .then(response => {
 				var result=response.data;
-				console.log(result);
-				    var navigate = this.$router;
+				let arr = new Array();
+				var navigate = this.$router;
 				for(var object in result) {
-					DG.marker([result[object].Lat, result[object].Lng])
-					.on('click',
-					function() 
-					{ 
-					navigate.push({ name: 'lookCard', query: { cardId: result[object].Id } });
-					}
-					).addTo(this.map);
+				arr.push(
+				DG.marker([result[object].Lat, result[object].Lng])
+				);
+
+					arr[arr.length-1].alt=result[object].Id;
+					arr[arr.length-1].addTo(this.map);
+					console.log(arr[arr.length-1].alt);
 				}
+				var group = DG.featureGroup(arr);
+                group.addTo(this.map);
+                group.on('click', function(e) {
+                   navigate.push({ name: 'lookCard', query: { cardId: e.eventTargets[0].alt } });
+                });
 				})		
 	  .catch(error => {});	
   },

@@ -5,16 +5,24 @@
 <script>
 export default {
 data() {
-    return { id: this.cardId }
+    return { Id: this.cardId }
 },
   methods: {
-  
+  getCard() {
+        this.$axios.post('/api/getobjectbyid.php',{Id:this.Id})
+      .then(response => {
+			var data = response.data;
+			console.log(data);
+			
+			})
+	  .catch(error => {})	
+  }
   },
 props: {
   cardId: String,
 },  mounted: 
-  function() {
-  console.log(this.id);
+  function() { 
+  this.getCard();
   }
   
 }

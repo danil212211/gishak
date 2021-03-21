@@ -2,15 +2,15 @@
 include ("database.php");
 include ("object.php");
 class Objects {
-	private $objectCollection = array();
-	private $database;
+	protected $objectCollection = array();
+	protected $dataBase;
 	
 	public function __construct() {
-		$this->database=DataBase::getDataBase();
-		$request=mysqli_query($this->database,"SELECT * FROM `YKTPLACES`.`OBJECT`");
+		$this->dataBase=DataBase::getDataBase();
+		$request=mysqli_query($this->dataBase,"SELECT * FROM `YKTPLACES`.`OBJECT`");
 		$array=mysqli_fetch_array($request);
 		do{
-			$buffer = new ObjectY($array["NAME"],$array["DESCRIPTION"],$array["PHOTO"],$array["FILE"],$array["ID"],$array["LAT"],$array["LNG"]);
+			$buffer = new ObjectY($array["NAME"],$array["DESCRIPTION"],$array["PHOTO"],$array["FILES"],$array["ID"],$array["LAT"],$array["LNG"]);
 			
 			array_push($this->objectCollection,$buffer);
 		} while ($array=mysqli_fetch_array($request));	

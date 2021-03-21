@@ -21,16 +21,25 @@ class ObjectY {
 		return $this->Name;
 	}
 	public function getDescription() {
-		
 		return $this->Description;
 	}
 	public function getPhotos() {
-		
 		return $this->Photos;
 	}
 	public function getFiles() {
-		
 		return $this->Files;
+		
+	}
+	public function getId() {
+		return $this->Id;
+		
+	}
+	public function getLat() {
+		return $this->Lat;
+		
+	}
+	public function getLng() {	
+		return $this->Lng;
 		
 	}
 }
