@@ -44,7 +44,7 @@ class User {
 			$hash_user=hash('SHA512',$Salt.$userPassword.$Salt);
 			$hash_bd=$array["HASH"];
 			if ($hash_bd==$hash_user) {
-			$this->userHash=$password_hash;
+			$this->userHash=$hash_user;
 			return true;
 			} else {
 			return false;

@@ -1,32 +1,42 @@
 <template>
 <div>
-<b-container fluid>
 <NavBar></NavBar>
-  <b-row >
-
-    <b-col sm="8" style="margin-bottom:10px">
+<b-container  >
+<div>
+  <b-card 
+  class="123"
+    overlay
+	img-fluid
+    :img-src="previewImage"
+    text-variant="white"
+    img-height="400"
+    :title="Name">
+    <b-card-text>
+      {{Description}}
+    </b-card-text>
+  </b-card>
+</div>
       <b-form-textarea
         id="textarea-default"
-        placeholder="Default textarea"
+        placeholder="Имя"
+		v-model="Name"
+		style="margin-bottom:10px"
       ></b-form-textarea>
-    </b-col>
-    <b-col sm="8" style="margin-bottom:10px">
       <b-form-textarea
         id="textarea-default"
-        placeholder="Default textarea"
+		style="margin-bottom:10px"
+		v-model="Description"
+        placeholder="Описание"
       ></b-form-textarea>
-    </b-col>
-    <b-col sm="8" style="margin-bottom:10px">
     <b-form-file
-      v-model="file1"
       :state="Boolean(file1)"
-      placeholder="Choose a file or drop it here..."
-      drop-placeholder="Drop file here..."
+	  @change=uploadImage
+	  accept="image/*"
+	  v-model="previewImage"
+      placeholder="Фото"
+      drop-placeholder="Фото"
     ></b-form-file>
-    </b-col>
 
-
-  </b-row>
 </b-container>
 </div>
 </template>
@@ -34,15 +44,34 @@
 export default {
   data() {
     return {
+	Name:'',
+	Description:'',
+	previewImage:'https://picsum.photos/900/250/?image=3'
 	}
 	},
-  methods: {
-   }
-
+        methods:{
+            uploadImage(e){
+                const image = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(image);
+                reader.onload = e =>{
+                    this.previewImage = e.target.result;
+                    console.log(this.previewImage);
+                };
+            }
+}
 }
 </script>
 <style scoped>
 .b-col{
 background:grey;
+}
+b-container fluid{
+position:fixed;
+left:50%;
+  transform: translate(-50%, -50%);
+}
+.card-img{
+object-fit:cover;
 }
 </style>

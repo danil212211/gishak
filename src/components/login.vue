@@ -36,7 +36,11 @@ export default {
       .then(response => {
 			var answer = response.data.answer;
 			if (answer=="no") {console.log(answer); this.$router.push('signup');}
-			if (answer=="yes") {this.$router.push('map')};
+			if (answer=="yes") {
+				this.$cookies.set("uid",response.data.login);
+				this.$cookies.set("hash",response.data.hash);
+				this.$router.push('map')
+			};
 			
 			})
 	  .catch(error => {})	

@@ -8,7 +8,9 @@
 	if ($isLogin) {
 		echo ' 
 		{
-		  "answer": "yes"
+		  "answer": "yes",
+		  "login": "'.$data["login"].'",
+		  "hash": "'.$user ->getHash().'"
 		}';
 	} else {
 		echo '
